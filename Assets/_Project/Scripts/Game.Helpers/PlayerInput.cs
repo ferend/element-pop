@@ -50,7 +50,7 @@ namespace Game.Helpers
         {
             if (_canShoot )
             {
-                Vector3 force = mousePosition.normalized * 30;
+                Vector3 force = mousePosition.normalized * 20;
                 Bullet.Shooted(_bulletsRoot, force);
             }
             LoadBullets(GenerateBallAsBullet());

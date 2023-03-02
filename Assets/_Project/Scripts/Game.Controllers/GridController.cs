@@ -31,8 +31,12 @@ namespace Game.Controllers
                     _bubbleGrid[i, k] = new GridCell(i, k, GridPositionToVectorPosition(i,  k));
                 }
             }
+
+            orphanBallList = new List<Bubble>();
+
             
         }
+        
         
         private Vector3 GridPositionToVectorPosition(int x, int y)
         {
@@ -265,7 +269,30 @@ namespace Game.Controllers
         
         private List<Bubble> orphanBallList;
 
- 
+        public void RemoveOrphans()
+        {
+            GridCell[,] grid = _bubbleGrid;
+            for (int i = 0; i <_gridSizeX; i++)
+            {
+                for (int j = 0; j <_gridSizeY; j++)
+                {
+                    if (!grid[i, j].visited)
+                    {
+                        if (grid[i, j].bubble != null)
+                        {                            
+                            orphanBallList.Add(grid[i, j].bubble);
+                            grid[i, j].bubble.gameObject.SetActive(false);
+                            orphanBallList.Clear();
+                            Debug.Log("////// REMOVE ORPHANS BALL IS NOT NULL " + grid[i, j].bubble.gameObject.name + "////" + grid[i,j].visited);
+                        }
+
+                    }
+                    grid[i, j].visited = false;
+                }
+
+            }
+
+        }
         
     }
 }
