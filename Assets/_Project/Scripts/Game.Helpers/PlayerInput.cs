@@ -83,7 +83,6 @@ namespace Game.Helpers
             Transform transform1;
             (transform1 = first.transform).SetParent(bulletTransform);
             transform1.localPosition = Vector3.zero;
-            transform1.localScale = new Vector3(0.42f, 0.42f, 1f);
         }
         
         private Bubble GenerateBallAsBullet()

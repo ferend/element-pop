@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using DG.Tweening;
 using Game.Entity;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -20,6 +22,8 @@ namespace Game.Controllers
         public override void Setup()
         {
             base.Setup();
+            Bubble.OnBubbleCollision += (bubble, cell) => AssignBulletToGridCell(bubble, cell);
+            Bubble.OnBubbleMatch += (bubble) => ExplodeSameColorBall(bubble);
             InitGrid();
         }
         
@@ -46,11 +50,32 @@ namespace Game.Controllers
             }
         }
         
+        private void InitNewRow()
+        {
+            ADDED_ROW_SIZE++;
+            int methodType = _gridController.GetGridSizeX();
+            for (int k = MAX_ROW - DEFAULT_ROW - ADDED_ROW_SIZE - 1; k < MAX_ROW - DEFAULT_ROW - ADDED_ROW_SIZE; k++)
+            {
+                for (int i = 0; i < methodType; i++)
+                {
+                    Bubble ball = InstantiateBubble(RandomBallColor(0, 8));
+                    ball.transform.SetParent(_pivotTransform);
+                    ball.transform.SetSiblingIndex(i);
+                    
+                    AssignBubbleToGrid(ball, i, k);
+
+                    ball.FixPosition();
+                }
+            }
+            
+
+        }
+        
         private Bubble InstantiateBubble(Constants.BubbleColors colors)
         {
             Bubble go = Instantiate(ballPrefabs[(int) colors]);
             go.SetColor(colors);
-            //go.gameObject.tag = "Ball";
+            go.gameObject.tag = "Ball";
             return go;
         }
         
@@ -66,6 +91,58 @@ namespace Game.Controllers
             bubble.transform.localPosition = bubble.GetGridPosition().position;
         }
         
+        public void AssignBulletToGridCell(Bubble bullet, GridCell gridCellClue)
+        {
+            bullet.transform.SetParent(_pivotTransform);
+            GridCell nearestCell = _gridController.FindNearestGridCellWithCell(gridCellClue, bullet.transform.localPosition);
+           
+            AssignBubbleToGrid(bullet, nearestCell.X, nearestCell.Y);
+            // try
+            // {
+            //     AssignBallTo2DGrid(bullet, nearestCell.X, nearestCell.Z);
+            //
+            // }
+            // catch 
+            // {
+            //      AssignBallToGrid(bullet, nearestCell3D.X, nearestCell3D.Y, nearestCell3D.Z);
+            // }
+        }
+        
+        public void ExplodeSameColorBall(Bubble bubble)
+        {
+            if (CheckAndExplodeSameColorBall(bubble))
+            {
+                //UIManager.Instance.SetPlayerScoreText();
+                _gridController.RunRecursion(0 ,MAX_ROW-DEFAULT_ROW);
+            }
+            else
+            {
+                //shootCount++;
+            }
+        }
+        private bool CheckAndExplodeSameColorBall(Bubble bullet) {
+            
+            List<GridCell> sameColorBalls = _gridController.GetListBallsSameColor(bullet);
+            //List<GridCell> balls = _gridController.GetNeighbors(bullet.GetGridPosition().X, bullet.GetGridPosition().Y, bullet.GetBallColor(), false);
+            //List<GridCell> otherNeighbors = new List<GridCell>();
+            
+            bool isExploded = sameColorBalls.Count >= 2;
+            if (isExploded)
+            {
+                sameColorBalls.Add(bullet.GetGridPosition());
+                //ScoreSystem.ScoreCalculator(sameColorBalls.Count, Constants.BallPoints[bullet.GetBallColor()]);
+                
+                foreach (GridCell cell in sameColorBalls)
+                {
+                    cell.bubble.BubbleExplodeEffect();
+                    cell.bubble = null;
+                }
+            }
 
+            return isExploded;
+        }
+        
+        
+        
     }
 }

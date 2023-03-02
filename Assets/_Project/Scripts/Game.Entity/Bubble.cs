@@ -12,6 +12,8 @@ namespace Game.Entity
         private SpriteRenderer _spriteRenderer;
         public bool _isMoving;
 
+        public static event Action<Bubble,GridCell> OnBubbleCollision;
+        public static event Action<Bubble> OnBubbleMatch;
         private void Awake()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -73,6 +75,50 @@ namespace Game.Entity
             _isMoving = true;
             _rb.bodyType = RigidbodyType2D.Dynamic;
         }
+
+        public void BubbleExplodeEffect()
+        {
+            Destroy(this.gameObject);
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            BubbleCollisionHandler(collision);
+        }
+
+
+        private void BubbleCollisionHandler(Collision2D coll)
+        {
+            if (gameObject.CompareTag("Bullet"))
+            {
+                
+                if (coll.gameObject.CompareTag("Ball"))
+                {
+                    FixPosition();
+                    gameObject.tag = "Ball";
+                    //gameObject.layer = LayerMask.NameToLayer("Ball");
+                    OnBubbleCollision?.Invoke(this, coll.gameObject.GetComponent<Bubble>().GetGridPosition());
+                    OnBubbleMatch?.Invoke(this);
+                    //BallManager.Instance.OnShootComplete();
+                }
+    
+                if (coll.gameObject.layer == LayerMask.NameToLayer("Plane"))
+                {
+                    Destroy(gameObject);
+                    //BallManager.Instance.OnShootComplete();
+
+                }
+            }
+            
+            if (coll.gameObject.CompareTag("Ball"))
+            {
+                if (coll.transform != null)
+                {
+                    float originalPos = coll.transform.position.z;
+                }
+            }
+        }
+        
 
     }
 }

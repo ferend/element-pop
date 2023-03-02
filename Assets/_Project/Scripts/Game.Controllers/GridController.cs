@@ -97,7 +97,6 @@ namespace Game.Controllers
                     nearestCell = gridCell;
                 }
 
-                gridCell.visited = true;
             }
 
             return nearestCell;
@@ -132,6 +131,141 @@ namespace Game.Controllers
         {
             return _bubbleGrid[x, z].bubble != null;
         }
+        
+        public GridCell FindNearestGridCellWithCell(GridCell cellType, Vector3 position)
+        {
+            var listNeighbors = GetNeighborCells(cellType.X,  cellType.Y);
+            return FindNearestGridCellInList(listNeighbors, position);
+        }
+        
+        private GridCell FindNearestGridCellInList(List<GridCell> listNeighbors, Vector3 position)
+        {
+            float smallestDistance = Mathf.Infinity;
+            GridCell nearestCell = null;
+            foreach (GridCell gridCell in listNeighbors)
+            {
+                if (gridCell.bubble != null) continue;
+                float currentDistance = Vector3.Distance(gridCell.position, position);
+
+                if (currentDistance < smallestDistance)
+                {
+                    smallestDistance = currentDistance;
+                    nearestCell = gridCell;
+                }
+            }
+
+            return nearestCell;
+        }
+        
+        public List<GridCell> GetListBallsSameColor(Bubble bullet)
+        {
+            List<GridCell> sameColors = new List<GridCell>();
+            List<GridCell> neighbors = GetNeighbors(bullet.GetGridPosition().X, bullet.GetGridPosition().Y, bullet.GetBallColor(), true);
+            GridCell mainCell = bullet.GetGridPosition();
+            do
+            {
+                List<GridCell> listTemp = new List<GridCell>();
+                foreach (GridCell cell in neighbors)
+                {
+                    List<GridCell> list = GetNeighbors(cell.X,  cell.Y, mainCell.bubble.GetBallColor(), true);
+                    list = list.FindAll(c => !neighbors.Contains(c));
+                    list = list.FindAll(c => !listTemp.Contains(c));
+                    list = list.FindAll(c => !sameColors.Contains(c));
+                    if (list.Contains(mainCell))
+                        list.Remove(mainCell);
+                    listTemp.AddRange(list);
+                }
+
+                sameColors.AddRange(neighbors);
+                neighbors = listTemp;
+            } while (neighbors.Count >= 1);
+
+            return sameColors;
+        }
+        
+        public GridCell GetGridCell(int x,  int z)
+        {
+            try
+            {
+                return _bubbleGrid[x, z];
+
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        
+        public void RunRecursion(int i, int j)
+        {
+            for (int k = 0; k < _gridSizeX; k++)
+            {
+                for (int l = 0; l < _gridSizeY; l++)
+                {
+           
+                    // Debug.Log("/////"  + (_gridManager._generatedGridWithBalls2D[k,l].Ball != null));
+            
+                }
+
+            }
+            Recursion(i,j); 
+        
+            int value = 0;
+            for (int k = i; k < _gridSizeX; k++)
+            {
+                for (int l = j; l < _gridSizeY; l++)
+                {
+                    if (_bubbleGrid[k, l].visited == false)
+                    {
+                        value++;
+                    }
+                }
+            }
+
+            RemoveOrphans();
+   
+            value = 0;
+            for (int k = 0; k < _gridSizeX; k++)
+            {
+                for (int l = 0; l <_gridSizeY; l++)
+                {
+                    if (_bubbleGrid[k, l].visited == false)
+                    {
+                        value++;
+
+                    }
+                }
+            }
+        
+            // Debug.Log(":::: value WITH orphan remove : " + value);
+        }
+        
+        public void Recursion(int i, int j)
+        {
+            GridCell gridcell = GetGridCell(i, j);
+            if (gridcell== null || gridcell.visited || gridcell.bubble == null ) return;
+        
+            gridcell.visited = true;
+  
+            for ( int x = -1; x <= 1; x++) {
+                for (int y = -1; y <= 1; y++) {
+                    if ( x == 0 && y == 0) continue;
+                    try
+                    {
+                        Recursion(i+x,j+y);
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+
+                }
+            }
+        }
+        
+        private List<Bubble> orphanBallList;
+
+ 
         
     }
 }
