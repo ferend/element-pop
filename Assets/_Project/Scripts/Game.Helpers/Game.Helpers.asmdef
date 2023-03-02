@@ -2,7 +2,8 @@
     "name": "Game.Helpers",
     "rootNamespace": "Game.Helpers",
     "references": [
-        "GUID:710d728cc7abe4619ac3cbcedd34b5a8"
+        "GUID:710d728cc7abe4619ac3cbcedd34b5a8",
+        "GUID:4a5ea2d798f874e9584915a3e5a708c2"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

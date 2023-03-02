@@ -6,6 +6,11 @@ namespace Game
 {
     public class Constants
     {
+
+        public const string LayerWallLine = "WallForAimingLine";
+        public const string LayerBubble = "Bubble";
+
+        
         public enum BubbleColors
         {
             Blue,

@@ -26,11 +26,6 @@ namespace Game.Helpers
         {
         }
 
-        public virtual void KeyboardControls()
-        {
-            
-        }
-        
     }
 
 }

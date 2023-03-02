@@ -1,5 +1,7 @@
+using System;
 using Game.Entity;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Game.Controllers
 {
@@ -14,7 +16,6 @@ namespace Game.Controllers
         private int MAX_ROW = 1000;
         private int ADDED_ROW_SIZE = -1;
         private int DEFAULT_ROW = 6;
-
 
         public override void Setup()
         {
@@ -40,7 +41,7 @@ namespace Game.Controllers
                     Bubble bubble = InstantiateBubble(RandomBallColor(0, 8));
                     bubble.transform.SetParent(_pivotTransform);
                     AssignBubbleToGrid(bubble, i,  k);
-                    //bubble.FixPosition();
+                    bubble.FixPosition();
                 }
             }
         }
@@ -60,7 +61,6 @@ namespace Game.Controllers
         
         private void AssignBubbleToGrid(Bubble bubble, int x, int z)
         {
-            
             GridCell grid = _gridController.RegisterBall(x,  z, bubble);
             bubble.SetGridPosition(grid);
             bubble.transform.localPosition = bubble.GetGridPosition().position;
