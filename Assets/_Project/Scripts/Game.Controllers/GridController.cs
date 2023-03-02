@@ -36,9 +36,9 @@ namespace Game.Controllers
         
         private Vector3 GridPositionToVectorPosition(int x, int y)
         {
-            float pivotTopLeftX = (y % 2 == 0) ? 0 : _cellSizeX / 5.0F;
-            float positionX = pivotTopLeftX + x * _cellSizeX / 2.0f;
-            float positionY = y * _cellSizeY / 2.0f;
+            float pivotTopLeftX = (y % 2 == 0) ? 0 : _cellSizeX / 2.0f;
+            float positionX = pivotTopLeftX + x * _cellSizeX + _cellSizeX / 2.0f;
+            float positionY = -y * _cellSizeY - _cellSizeY / 2f;
             return new Vector3(positionX, positionY, 0);
         }
         
@@ -101,6 +101,36 @@ namespace Game.Controllers
             }
 
             return nearestCell;
+        }
+        
+        public List<GridCell> GetNeighbors(int x, int z, Constants.BubbleColors color, bool checkColor)
+        {
+            List<GridCell> list = new List<GridCell>();
+            List<GridCell> neighbors = GetNeighborCells(x,  z);
+            foreach (GridCell cell in neighbors)
+            {
+                if (checkColor)
+                {
+                    if (IsOccupied(cell.X,  cell.Y) && cell.bubble.GetBallColor() == color)
+                    {
+                        list.Add(cell);
+                    }
+                }
+                else if (!checkColor)
+                {
+                    if (IsOccupied(cell.X,  cell.Y))
+                    {
+                        list.Add(cell);
+                    }
+                }
+            }
+
+            return list;
+        }
+        
+        private bool IsOccupied(int x, int z)
+        {
+            return _bubbleGrid[x, z].bubble != null;
         }
         
     }

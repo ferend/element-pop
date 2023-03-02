@@ -1,7 +1,9 @@
 {
     "name": "Game.Entity",
     "rootNamespace": "Game.Entity",
-    "references": [],
+    "references": [
+        "GUID:710d728cc7abe4619ac3cbcedd34b5a8"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
