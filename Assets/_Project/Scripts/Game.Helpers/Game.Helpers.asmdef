@@ -1,0 +1,16 @@
+{
+    "name": "Game.Helpers",
+    "rootNamespace": "Game.Helpers",
+    "references": [
+        "GUID:710d728cc7abe4619ac3cbcedd34b5a8"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
