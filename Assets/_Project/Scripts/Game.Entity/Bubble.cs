@@ -49,11 +49,16 @@ namespace Game.Entity
             transform.SetParent(bulletRoot);
             ShootForce(force);
         }
+
+        public void PopBubble()
+        {
+            Destroy(this.gameObject);
+        }
         
         private void ShootForce(Vector2 force)
         {
-            _rb.AddForce(new Vector2(force.x, force.y),ForceMode2D.Impulse);
-            //_rigidBody.velocity = new Vector2(force.x, force.y)*Time.fixedDeltaTime*100f; 
+            //_rb.AddForce(new Vector2(force.x, force.y),ForceMode2D.Impulse);
+            _rb.velocity = new Vector2(force.x, force.y)*Time.fixedDeltaTime * 40f; 
            
             //this.myforce = force;
             _isMoving = true;

@@ -36,7 +36,7 @@ namespace Game.Controllers
         
         private void InitGrid()
         {
-            _gridController = GridController(8, 2000, 0.52F, 0.52F);
+            _gridController = GridController(8, 2000, 0.52F, 0.5F);
             ADDED_ROW_SIZE = -1;
             for (int i = 0; i < _gridController.GetGridSizeX(); i++)
             {
@@ -94,18 +94,16 @@ namespace Game.Controllers
         public void AssignBulletToGridCell(Bubble bullet, GridCell gridCellClue)
         {
             bullet.transform.SetParent(_pivotTransform);
-            GridCell nearestCell = _gridController.FindNearestGridCellWithCell(gridCellClue, bullet.transform.localPosition);
+            GridCell nearestCell = _gridController.FindNearestGridCell(gridCellClue, bullet.transform.localPosition);
            
-            AssignBubbleToGrid(bullet, nearestCell.X, nearestCell.Y);
-            // try
-            // {
-            //     AssignBallTo2DGrid(bullet, nearestCell.X, nearestCell.Z);
-            //
-            // }
-            // catch 
-            // {
-            //      AssignBallToGrid(bullet, nearestCell3D.X, nearestCell3D.Y, nearestCell3D.Z);
-            // }
+            try
+            {
+                AssignBubbleToGrid(bullet, nearestCell.X, nearestCell.Y);
+            }
+            catch 
+            {
+                return;
+            }
         }
         
         public void ExplodeSameColorBall(Bubble bubble)
@@ -137,6 +135,10 @@ namespace Game.Controllers
                     cell.bubble.BubbleExplodeEffect();
                     cell.bubble = null;
                 }
+            }
+            else
+            {
+                InitNewRow();
             }
 
             return isExploded;

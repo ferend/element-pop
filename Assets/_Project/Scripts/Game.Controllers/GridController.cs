@@ -281,7 +281,7 @@ namespace Game.Controllers
                         if (grid[i, j].bubble != null)
                         {                            
                             orphanBallList.Add(grid[i, j].bubble);
-                            grid[i, j].bubble.gameObject.SetActive(false);
+                            grid[i, j].bubble.PopBubble();
                             orphanBallList.Clear();
                             Debug.Log("////// REMOVE ORPHANS BALL IS NOT NULL " + grid[i, j].bubble.gameObject.name + "////" + grid[i,j].visited);
                         }
