@@ -19,6 +19,8 @@ namespace Game.Controllers
         private int ADDED_ROW_SIZE = -1;
         private int DEFAULT_ROW = 6;
 
+        private int _shootCount = 0;
+
         public override void Setup()
         {
             base.Setup();
@@ -123,8 +125,10 @@ namespace Game.Controllers
             List<GridCell> sameColorBalls = _gridController.GetListBallsSameColor(bullet);
             //List<GridCell> balls = _gridController.GetNeighbors(bullet.GetGridPosition().X, bullet.GetGridPosition().Y, bullet.GetBallColor(), false);
             //List<GridCell> otherNeighbors = new List<GridCell>();
+            _shootCount++;
             
             bool isExploded = sameColorBalls.Count >= 2;
+            
             if (isExploded)
             {
                 sameColorBalls.Add(bullet.GetGridPosition());
@@ -138,7 +142,11 @@ namespace Game.Controllers
             }
             else
             {
-                InitNewRow();
+                if (_shootCount % Constants.numToMoveGrid == 0)
+                {
+                    _pivotTransform.position = new Vector3(_pivotTransform.position.x , _pivotTransform.position.y - 0.5F);
+                    InitNewRow();
+                }
             }
 
             return isExploded;

@@ -9,6 +9,7 @@ namespace Game
 
         public const string LayerWallLine = "WallForAimingLine";
         public const string LayerBubble = "Bubble";
+        public const int numToMoveGrid = 3;
 
         
         public enum BubbleColors
