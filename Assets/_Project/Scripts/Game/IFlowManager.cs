@@ -6,12 +6,10 @@ namespace Game
     {
         event Action OnGameOver;
         event Action OnGameStart;
-        event Action OnGameFinish;
         event Action OnGameRestart;
 
 
         void GameStart();
-        void GameFinish();
         void GameOver();
         void SetPaused(bool isPaused);
     }

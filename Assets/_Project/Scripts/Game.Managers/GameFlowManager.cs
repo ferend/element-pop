@@ -1,4 +1,6 @@
 using System;
+using Game.Controllers;
+using Game.Entity;
 using UnityEngine;
 
 namespace Game.Managers
@@ -7,11 +9,11 @@ namespace Game.Managers
     {
         public event Action OnGameOver;
         public event Action OnGameStart;
-        public event Action OnGameFinish;
         public event Action OnGameRestart;
 
         private InputManager _inputManager;
         private PlayerController _playerController;
+        private BubbleController _bubbleController;
         private bool _canPlay;
         
         public static IFlowManager Manager { get; }
@@ -22,13 +24,13 @@ namespace Game.Managers
             base.SetupManagers();
             _inputManager = GetManager<InputManager>();
             _playerController = GetManager<PlayerController>();
+            _bubbleController = GetManager<BubbleController>();
         }
         
         public override void Setup()
         {
             base.Setup();
-            _playerController.OnPlayerFail += GameOver;
-
+            Deadline.OnBubbleCollision += GameOver;
         }
         public void GameStart()
         {
@@ -37,12 +39,10 @@ namespace Game.Managers
         public void GameOver()
         {
             OnGameOver?.Invoke();
+            _bubbleController.ResetGrid();
             Debug.Log("gameover");
         }
-        public void GameFinish()
-        {
-        }
-
+        
         public void SetPaused(bool isPaused)
         {
         }

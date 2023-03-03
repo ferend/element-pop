@@ -11,7 +11,7 @@ namespace Game.Controllers
     {
         [SerializeField] private Bubble[] ballPrefabs;
         [SerializeField] private Transform _pivotTransform;
-
+        private Vector3 _originalPosition;
         private GridController _gridController;
         private GridLayout _gridLayout;
 
@@ -27,6 +27,7 @@ namespace Game.Controllers
             Bubble.OnBubbleCollision += (bubble, cell) => AssignBulletToGridCell(bubble, cell);
             Bubble.OnBubbleMatch += (bubble) => ExplodeSameColorBall(bubble);
             InitGrid();
+            _originalPosition = _pivotTransform.localPosition;
         }
         
         private static GridController GridController(int x, int y, float cx,  float cy)
@@ -106,6 +107,8 @@ namespace Game.Controllers
             {
                 return;
             }
+
+            bullet.gameObject.layer = LayerMask.NameToLayer("Default");
         }
         
         public void ExplodeSameColorBall(Bubble bubble)
@@ -120,7 +123,8 @@ namespace Game.Controllers
                 //shootCount++;
             }
         }
-        private bool CheckAndExplodeSameColorBall(Bubble bullet) {
+        private bool CheckAndExplodeSameColorBall(Bubble bullet) 
+        {
             
             List<GridCell> sameColorBalls = _gridController.GetListBallsSameColor(bullet);
             //List<GridCell> balls = _gridController.GetNeighbors(bullet.GetGridPosition().X, bullet.GetGridPosition().Y, bullet.GetBallColor(), false);
@@ -138,6 +142,8 @@ namespace Game.Controllers
                 {
                     cell.bubble.BubbleExplodeEffect();
                     cell.bubble = null;
+                    
+                    _shootCount = 0;
                 }
             }
             else
@@ -150,6 +156,30 @@ namespace Game.Controllers
             }
 
             return isExploded;
+        }
+        
+        public void ResetGrid()
+        {
+            _pivotTransform.localPosition = _originalPosition;
+            ClearBalls();
+            InitGrid();
+        }
+
+        private void ClearBalls()
+        {
+            for (int i = 0; i < _gridController.GetGridSizeX(); i++)
+            { 
+                for (int k = 0; k < _gridController.GetGridSizeZ(); k++)
+                {
+                    RemoveBallFromGame(_gridController.GetGridCell(i,  k).bubble);
+                } 
+            }
+
+        }
+        
+        private void RemoveBallFromGame(Bubble bubble)
+        {
+            if (bubble != null) Destroy(bubble.gameObject);
         }
         
         
