@@ -58,16 +58,15 @@ namespace Game.Helpers
         
         public void Rotation(Vector3 position)
         {
-            if (_canShoot)
+            Vector3 nvec = new Vector3(position.x, position.y, transform.position.z);
+            Vector3 direction = nvec - transform.position;
+            if (Vector3.Angle(Vector3.up, direction) < 83)
             {
-                Vector3 nvec = new Vector3(position.x, position.y, transform.position.z);
-                Vector3 direction = nvec - transform.position;
-                if (Vector3.Angle(Vector3.up, direction) < 83)
-                {
-                    transform.up = direction;
-                    mousePosition = direction;
-                }
+                transform.up = direction;
+                mousePosition = direction;
+                _canShoot = false;
             }
+            _canShoot = true;
         }
         
         private void LoadBullets(Bubble newBullet)

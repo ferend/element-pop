@@ -14,7 +14,7 @@ namespace Game.Controllers
         private float _cellSizeX;
         private float _cellSizeY;
         public int GetGridSizeX() => _gridSizeX;
-        public int GetGridSizeZ() => _gridSizeY;
+        public int GetGridSizeY() => _gridSizeY;
         
         public GridController(int gridSizeX,  int gridSizeY, float cellSizeX, float cellSizeY)
         {
@@ -202,46 +202,8 @@ namespace Game.Controllers
         
         public void RunRecursion(int i, int j)
         {
-            for (int k = 0; k < _gridSizeX; k++)
-            {
-                for (int l = 0; l < _gridSizeY; l++)
-                {
-           
-                    // Debug.Log("/////"  + (_gridManager._generatedGridWithBalls2D[k,l].Ball != null));
-            
-                }
-
-            }
             Recursion(i,j); 
-        
-            int value = 0;
-            for (int k = i; k < _gridSizeX; k++)
-            {
-                for (int l = j; l < _gridSizeY; l++)
-                {
-                    if (_bubbleGrid[k, l].visited == false)
-                    {
-                        value++;
-                    }
-                }
-            }
-
             RemoveOrphans();
-   
-            value = 0;
-            for (int k = 0; k < _gridSizeX; k++)
-            {
-                for (int l = 0; l <_gridSizeY; l++)
-                {
-                    if (_bubbleGrid[k, l].visited == false)
-                    {
-                        value++;
-
-                    }
-                }
-            }
-        
-            // Debug.Log(":::: value WITH orphan remove : " + value);
         }
         
         public void Recursion(int i, int j)
@@ -267,7 +229,7 @@ namespace Game.Controllers
             }
         }
         
-        private List<Bubble> orphanBallList;
+        private List<Bubble> orphanBallList = new List<Bubble>();
 
         public void RemoveOrphans()
         {
@@ -282,8 +244,6 @@ namespace Game.Controllers
                         {                            
                             orphanBallList.Add(grid[i, j].bubble);
                             grid[i, j].bubble.PopBubble();
-                            orphanBallList.Clear();
-                            Debug.Log("////// REMOVE ORPHANS BALL IS NOT NULL " + grid[i, j].bubble.gameObject.name + "////" + grid[i,j].visited);
                         }
 
                     }
@@ -291,8 +251,9 @@ namespace Game.Controllers
                 }
 
             }
+            orphanBallList.Clear();
 
         }
-        
+
     }
 }

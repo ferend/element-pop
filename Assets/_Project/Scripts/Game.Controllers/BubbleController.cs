@@ -169,7 +169,7 @@ namespace Game.Controllers
         {
             for (int i = 0; i < _gridController.GetGridSizeX(); i++)
             { 
-                for (int k = 0; k < _gridController.GetGridSizeZ(); k++)
+                for (int k = 0; k < _gridController.GetGridSizeY(); k++)
                 {
                     RemoveBallFromGame(_gridController.GetGridCell(i,  k).bubble);
                 } 
