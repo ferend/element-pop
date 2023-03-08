@@ -10,15 +10,18 @@ namespace Game.Entity
         private Collider2D _collider;
         private GridCell _gridPosition;
         private SpriteRenderer _spriteRenderer;
+        private Material _material;
         public bool _isMoving;
 
         public static event Action<Bubble,GridCell> OnBubbleCollision;
         public static event Action<Bubble> OnBubbleMatch;
+
         private void Awake()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _rb = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
+            _material = _spriteRenderer.material;
         }
         
 
@@ -31,8 +34,11 @@ namespace Game.Entity
         {
             _color = color;
             _spriteRenderer.color = Constants.ColorCodes[color];
+            _material.SetColor("_Color", Constants.ColorCodes[color]);
+            _material.SetColor("_DisLineColor", Constants.ColorCodes[color]);
+
         }
-        
+
         public GridCell GetGridPosition()
         {
             return _gridPosition;
