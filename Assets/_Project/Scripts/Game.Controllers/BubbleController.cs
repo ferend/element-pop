@@ -140,7 +140,7 @@ namespace Game.Controllers
                 
                 foreach (GridCell cell in sameColorBalls)
                 {
-                    cell.bubble.BubbleExplodeEffect();
+                    StartCoroutine(cell.bubble.BubbleExplodeEffect());
                     cell.bubble = null;
                     
                     _shootCount = 0;

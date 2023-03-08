@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Game.Entity
@@ -36,6 +37,7 @@ namespace Game.Entity
             _spriteRenderer.color = Constants.ColorCodes[color];
             _material.SetColor("_Color", Constants.ColorCodes[color]);
             _material.SetColor("_DisLineColor", Constants.ColorCodes[color]);
+            Debug.Log(_material.GetFloat("_DisAmount"));
 
         }
 
@@ -87,8 +89,21 @@ namespace Game.Entity
             _rb.bodyType = RigidbodyType2D.Dynamic;
         }
 
-        public void BubbleExplodeEffect()
+        public IEnumerator BubbleExplodeEffect()
         {
+
+            float duration = 1f; // duration of the lerp
+            float t = 0f; // current time
+            while (t < duration)
+            {
+                t += Time.deltaTime;
+                float normalizedTime = t / duration;
+                // lerp from 0 to 1 using the normalized time
+                float lerpedValue = Mathf.Lerp(0f, 1f, normalizedTime);
+                _material.SetFloat  ("_DisAmount", lerpedValue);
+                yield return null; // wait for next frame
+            }
+            // execute code after lerping is done
             Destroy(this.gameObject);
         }
 
