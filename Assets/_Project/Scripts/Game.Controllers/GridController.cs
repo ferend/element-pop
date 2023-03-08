@@ -200,10 +200,10 @@ namespace Game.Controllers
             }
         }
         
-        public void RunRecursion(int i, int j)
+        public void RunRecursion(int i, int j, MonoBehaviour mono)
         {
             Recursion(i,j); 
-            RemoveOrphans();
+            RemoveOrphans(mono);
         }
         
         public void Recursion(int i, int j)
@@ -231,7 +231,7 @@ namespace Game.Controllers
         
         private List<Bubble> orphanBallList = new List<Bubble>();
 
-        public void RemoveOrphans()
+        public void RemoveOrphans(MonoBehaviour mono)
         {
             GridCell[,] grid = _bubbleGrid;
             for (int i = 0; i <_gridSizeX; i++)
@@ -243,7 +243,7 @@ namespace Game.Controllers
                         if (grid[i, j].bubble != null)
                         {                            
                             orphanBallList.Add(grid[i, j].bubble);
-                            grid[i, j].bubble.PopBubble();
+                            mono.StartCoroutine(grid[i, j].bubble.BubbleExplodeEffect());
                         }
 
                     }

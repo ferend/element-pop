@@ -29,7 +29,7 @@ namespace Game
             [BubbleColors.DarkBlue] = Color.blue,
             [BubbleColors.Red] = Color.red,
             [BubbleColors.Green] = Color.green,
-            [BubbleColors.Purple] = new UnityEngine.Color(97/255f, 0/255f, 255/255f),
+            [BubbleColors.Purple] = new UnityEngine.Color(99/255f, 0/255f, 255/255f),
             [BubbleColors.Pink] =new UnityEngine.Color(255/255f, 0/255f, 189/255f),
             [BubbleColors.Yellow] = Color.yellow,
             [BubbleColors.Orange] = new UnityEngine.Color(255/255f, 138/255f, 0f/255f)

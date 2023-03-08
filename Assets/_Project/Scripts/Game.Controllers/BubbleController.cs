@@ -116,7 +116,7 @@ namespace Game.Controllers
             if (CheckAndExplodeSameColorBall(bubble))
             {
                 //UIManager.Instance.SetPlayerScoreText();
-                _gridController.RunRecursion(0 ,MAX_ROW-DEFAULT_ROW);
+                _gridController.RunRecursion(0 ,MAX_ROW-DEFAULT_ROW, this);
             }
             else
             {
@@ -140,7 +140,7 @@ namespace Game.Controllers
                 
                 foreach (GridCell cell in sameColorBalls)
                 {
-                    StartCoroutine(cell.bubble.BubbleExplodeEffect());
+                    StartCoroutine( cell.bubble.BubbleExplodeEffect());
                     cell.bubble = null;
                     
                     _shootCount = 0;

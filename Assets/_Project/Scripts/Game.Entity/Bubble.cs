@@ -37,8 +37,6 @@ namespace Game.Entity
             _spriteRenderer.color = Constants.ColorCodes[color];
             _material.SetColor("_Color", Constants.ColorCodes[color]);
             _material.SetColor("_DisLineColor", Constants.ColorCodes[color]);
-            Debug.Log(_material.GetFloat("_DisAmount"));
-
         }
 
         public GridCell GetGridPosition()
@@ -58,11 +56,6 @@ namespace Game.Entity
             ShootForce(force);
         }
 
-        public void PopBubble()
-        {
-            Destroy(this.gameObject);
-        }
-        
         private void ShootForce(Vector2 force)
         {
             //_rb.AddForce(new Vector2(force.x, force.y),ForceMode2D.Impulse);
@@ -92,7 +85,7 @@ namespace Game.Entity
         public IEnumerator BubbleExplodeEffect()
         {
 
-            float duration = 1f; // duration of the lerp
+            float duration = 0.8f; // duration of the lerp
             float t = 0f; // current time
             while (t < duration)
             {
