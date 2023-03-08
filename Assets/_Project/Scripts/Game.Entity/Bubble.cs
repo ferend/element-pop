@@ -85,7 +85,7 @@ namespace Game.Entity
         public IEnumerator BubbleExplodeEffect()
         {
 
-            float duration = 0.8f; // duration of the lerp
+            float duration = 0.7f; // duration of the lerp
             float t = 0f; // current time
             while (t < duration)
             {
