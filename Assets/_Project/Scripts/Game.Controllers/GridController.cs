@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace Game.Controllers
 {
-    public class GridController
+    public struct GridController
     {
-        private GridCell[,] _bubbleGrid;
+        public GridCell[,] _bubbleGrid;
 
         private int _gridSizeX;
         private int _gridSizeY;
@@ -24,6 +24,7 @@ namespace Game.Controllers
             _cellSizeY = cellSizeY;
 
             _bubbleGrid = new GridCell[_gridSizeX,  _gridSizeY];
+            orphanBallList = new List<Bubble>();
             for (int i = 0; i < _gridSizeX; i++)
             {
                 for (int k = 0; k < _gridSizeY; k++)
@@ -31,9 +32,6 @@ namespace Game.Controllers
                     _bubbleGrid[i, k] = new GridCell(i, k, GridPositionToVectorPosition(i,  k));
                 }
             }
-
-            orphanBallList = new List<Bubble>();
-
             
         }
         
@@ -229,7 +227,7 @@ namespace Game.Controllers
             }
         }
         
-        private List<Bubble> orphanBallList = new List<Bubble>();
+        private List<Bubble> orphanBallList;
 
         public void RemoveOrphans(MonoBehaviour mono)
         {

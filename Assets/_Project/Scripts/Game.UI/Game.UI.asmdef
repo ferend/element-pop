@@ -1,7 +1,9 @@
 {
     "name": "Game.UI",
     "rootNamespace": "Game.UI",
-    "references": [],
+    "references": [
+        "DOTween.Modules"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

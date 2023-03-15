@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Game.Managers
 {
-    public class GameFlowManager : System, IFlowManager
+    public class GameFlowManager : System
     {
         public event Action OnGameOver;
         public event Action OnGameStart;
@@ -14,10 +14,8 @@ namespace Game.Managers
         private InputManager _inputManager;
         private PlayerController _playerController;
         private BubbleController _bubbleController;
+        private UIManager _uiManager;
         private bool _canPlay;
-        
-        public static IFlowManager Manager { get; }
-
         
         protected override void SetupManagers()
         {
@@ -25,12 +23,15 @@ namespace Game.Managers
             _inputManager = GetManager<InputManager>();
             _playerController = GetManager<PlayerController>();
             _bubbleController = GetManager<BubbleController>();
+            _uiManager = GetManager<UIManager>();
         }
         
         public override void Setup()
         {
             base.Setup();
             Deadline.OnBubbleCollision += GameOver;
+
+            _uiManager.Setup();
         }
         public void GameStart()
         {
@@ -39,7 +40,7 @@ namespace Game.Managers
         public void GameOver()
         {
             OnGameOver?.Invoke();
-            _bubbleController.ResetGrid();
+            _uiManager.SwitchPanel(UIManager.PanelType.lose);
             Debug.Log("gameover");
         }
         

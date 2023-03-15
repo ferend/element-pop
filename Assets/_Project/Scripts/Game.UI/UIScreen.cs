@@ -5,7 +5,7 @@ namespace Game.UI
     [RequireComponent(typeof(CanvasGroup))]
     public abstract class UIScreen : MonoBehaviour
     {
-        private CanvasGroup _canvasGroup;
+        public CanvasGroup _canvasGroup;
         protected float openDuration = 0.5F;
         protected float closeDuration = 0.5F;
 

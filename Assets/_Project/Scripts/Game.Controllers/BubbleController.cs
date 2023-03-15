@@ -9,14 +9,14 @@ namespace Game.Controllers
 {
     public class BubbleController : Manager
     {
-        [SerializeField] private Bubble[] ballPrefabs;
+        [SerializeField] private Bubble ballPrefabs;
         [SerializeField] private Transform _pivotTransform;
         private Vector3 _originalPosition;
         private GridController _gridController;
         private GridLayout _gridLayout;
 
         private int MAX_ROW = 1000;
-        private int ADDED_ROW_SIZE = -1;
+        public int ADDED_ROW_SIZE = -1;
         private int DEFAULT_ROW = 6;
 
         private int _shootCount = 0;
@@ -34,8 +34,6 @@ namespace Game.Controllers
         {
             return new GridController(x,  y, cx, cy);
         }
-        
-        
         
         private void InitGrid()
         {
@@ -76,7 +74,7 @@ namespace Game.Controllers
         
         private Bubble InstantiateBubble(Constants.BubbleColors colors)
         {
-            Bubble go = Instantiate(ballPrefabs[(int) colors]);
+            Bubble go = Instantiate(ballPrefabs);
             go.SetColor(colors);
             go.gameObject.tag = "Ball";
             return go;
@@ -164,7 +162,7 @@ namespace Game.Controllers
             ClearBalls();
             InitGrid();
         }
-
+        
         private void ClearBalls()
         {
             for (int i = 0; i < _gridController.GetGridSizeX(); i++)

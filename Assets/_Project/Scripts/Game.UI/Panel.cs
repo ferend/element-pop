@@ -21,5 +21,6 @@ namespace Game.UI
             _canvasGroup.interactable = false;
             _canvasGroup.blocksRaycasts = false;
         }
+        
     }
 }
