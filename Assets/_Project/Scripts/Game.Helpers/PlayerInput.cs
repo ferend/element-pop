@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Game.Entity;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -52,6 +53,7 @@ namespace Game.Helpers
                 Vector3 force = mousePosition.normalized * 20;
                 Bullet.Shooted(_bulletsRoot, force);
                 LoadBullets(GenerateBallAsBullet());
+
             }
         }
         
@@ -68,14 +70,9 @@ namespace Game.Helpers
         
         private void LoadBullets(Bubble newBullet)
         {
-            LoadDoneBullets(newBullet);
-        }
-        
-        private void LoadDoneBullets(Bubble first)
-        {
-            Bullet = first;
+            Bullet = newBullet;
             Transform transform1;
-            (transform1 = first.transform).SetParent(bulletTransform);
+            (transform1 = newBullet.transform).SetParent(bulletTransform);
             transform1.localPosition = Vector3.zero;
         }
         
