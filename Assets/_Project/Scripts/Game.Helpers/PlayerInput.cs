@@ -8,12 +8,11 @@ namespace Game.Helpers
     public class PlayerInput : BaseInput
     {
         private float _timer;
-        private bool _canShoot; 
+        public bool _canShoot; 
         private Transform _bulletsRoot;
         
         [SerializeField] private  Transform bulletTransform;
-        [SerializeField] private  Transform[] preBulletTransform;
-        [SerializeField] private Bubble[] ballPrefabs;
+        [SerializeField] private Bubble ballPrefabs;
         [SerializeField] private Transform _pivot;
         
         private Vector2 mousePosition;
@@ -52,8 +51,8 @@ namespace Game.Helpers
             {
                 Vector3 force = mousePosition.normalized * 20;
                 Bullet.Shooted(_bulletsRoot, force);
+                LoadBullets(GenerateBallAsBullet());
             }
-            LoadBullets(GenerateBallAsBullet());
         }
         
         public void Rotation(Vector3 position)
@@ -64,16 +63,12 @@ namespace Game.Helpers
             {
                 transform.up = direction;
                 mousePosition = direction;
-                _canShoot = false;
             }
-            _canShoot = true;
         }
         
         private void LoadBullets(Bubble newBullet)
         {
             LoadDoneBullets(newBullet);
-            _canShoot = true;
-            
         }
         
         private void LoadDoneBullets(Bubble first)
@@ -99,12 +94,11 @@ namespace Game.Helpers
 
         private Bubble InstantiateBubble(Constants.BubbleColors colors)
         {
-            Bubble go = Instantiate(ballPrefabs[(int) colors]);
+            Bubble go = Instantiate(ballPrefabs);
             go.SetColor(colors);
             //go.gameObject.tag = "Ball";
             return go;
         }
-
-
+        
     }
 }

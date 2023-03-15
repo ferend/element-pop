@@ -162,6 +162,11 @@ namespace Game.Controllers
             ClearBalls();
             InitGrid();
         }
+
+        public void ResetShootCount()
+        {
+            _shootCount = 0;
+        }
         
         private void ClearBalls()
         {

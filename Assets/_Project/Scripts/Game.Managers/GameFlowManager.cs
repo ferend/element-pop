@@ -1,6 +1,7 @@
 using System;
 using Game.Controllers;
 using Game.Entity;
+using Game.Helpers;
 using UnityEngine;
 
 namespace Game.Managers
@@ -35,13 +36,17 @@ namespace Game.Managers
         }
         public void GameStart()
         {
-            
+            _uiManager.SwitchPanel(UIManager.PanelType.gameHUD);
+            _bubbleController.ResetGrid();
+            _bubbleController.ResetShootCount();
+            _inputManager.BaseInput.GetComponent<PlayerInput>()._canShoot = true;
         }
         public void GameOver()
         {
             OnGameOver?.Invoke();
             _uiManager.SwitchPanel(UIManager.PanelType.lose);
             Debug.Log("gameover");
+            _inputManager.BaseInput.GetComponent<PlayerInput>()._canShoot = false;
         }
         
         public void SetPaused(bool isPaused)
