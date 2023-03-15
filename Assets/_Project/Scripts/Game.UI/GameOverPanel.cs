@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using DG.Tweening;
 using UnityEngine;
@@ -12,21 +13,17 @@ namespace Game.UI
 
         protected override void PlayCloseAnim()
         {
-            _canvasGroup.DOFade(0.0f, closeDuration).OnComplete(() =>
-            {
-                
-            });
-            
-            StartCoroutine(FadeOut(1f,0.2f));
+            _canvasGroup.DOFade(0.0f, closeDuration);
+            StartCoroutine(Fade(1f,0.2f, () => _restartButton.gameObject.SetActive(false)));
         }
 
         protected override void PlayOpenAnim()
         {
-             _canvasGroup.DOFade(1.0f, openDuration);
-            StartCoroutine(FadeOut(0.2f,1f));
+            _canvasGroup.DOFade(1.0f, openDuration);
+            StartCoroutine(Fade(0.2f,1f, () => _restartButton.gameObject.SetActive(true)));
         }
         
-        public IEnumerator FadeOut(float from, float to)
+        public IEnumerator Fade(float from, float to, Action onComplete = null)
         {
 
             float duration = 2f;
@@ -39,8 +36,7 @@ namespace Game.UI
                 _image.material.SetFloat  ("_FadeAmount", lerpedValue);
                 yield return null;
             }
-
-            _restartButton.gameObject.SetActive(true);
+            onComplete?.Invoke();
         }
 
 
