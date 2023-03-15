@@ -12,7 +12,11 @@ namespace Game.UI
 
         protected override void PlayCloseAnim()
         {
-            _canvasGroup.DOFade(0.0f, closeDuration).OnComplete(() => Debug.Log("Fail screen close anim;"));
+            _canvasGroup.DOFade(0.0f, closeDuration).OnComplete(() =>
+            {
+                
+            });
+            
             StartCoroutine(FadeOut(1f,0.2f));
         }
 
