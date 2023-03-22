@@ -135,7 +135,7 @@ namespace Game.Controllers
             {
                 sameColorBalls.Add(bullet.GetGridPosition());
                 //ScoreSystem.ScoreCalculator(sameColorBalls.Count, Constants.BallPoints[bullet.GetBallColor()]);
-                
+
                 foreach (GridCell cell in sameColorBalls)
                 {
                     StartCoroutine( cell.bubble.BubbleExplodeEffect());

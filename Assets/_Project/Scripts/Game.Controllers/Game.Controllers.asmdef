@@ -3,7 +3,8 @@
     "rootNamespace": "Game.Controllers",
     "references": [
         "GUID:4a5ea2d798f874e9584915a3e5a708c2",
-        "GUID:710d728cc7abe4619ac3cbcedd34b5a8"
+        "GUID:710d728cc7abe4619ac3cbcedd34b5a8",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

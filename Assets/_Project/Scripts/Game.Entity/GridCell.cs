@@ -11,17 +11,14 @@ namespace Game.Entity
         public int Y;
         public Vector3 position;
         public Bubble bubble;
-        public bool visited = false;
+        public bool visited;
         
         public GridCell (int gridX, int gridY, Vector3 realPos){
             X = gridX;
             Y = gridY;
             position = realPos;
-        }
-
-        public GridCell (float gridX, float gridY){
-            X = (int) gridX;
-            Y = (int) gridY;
+            bubble = null;
+            visited = false;
         }
     }
 }

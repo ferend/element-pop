@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Game.Controllers;
 using Game.UI;
 using UnityEngine;
 
@@ -37,7 +38,7 @@ namespace  Game.Managers
 
             currentPanel = type;
         }
-
+        
         private UIScreen FetchPanel(PanelType panelType)
         {
             switch (panelType)
