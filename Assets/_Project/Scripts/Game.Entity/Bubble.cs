@@ -11,8 +11,12 @@ namespace Game.Entity
         private Collider2D _collider;
         private GridCell _gridPosition;
         private SpriteRenderer _spriteRenderer;
-        private Material _material;
         public bool _isMoving;
+
+        private MaterialPropertyBlock mpb;
+        private static readonly int propAmount = Shader.PropertyToID("_DisAmount");
+        private static readonly int propColorRenderer = Shader.PropertyToID("_Color");
+        private static readonly int propDisColorRenderer = Shader.PropertyToID("_DisLineColor");
 
         public static event Action<Bubble,GridCell> OnBubbleCollision;
         public static event Action<Bubble> OnBubbleMatch;
@@ -22,7 +26,6 @@ namespace Game.Entity
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _rb = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
-            _material = _spriteRenderer.material;
         }
         
 
@@ -30,13 +33,26 @@ namespace Game.Entity
         {
             return _color;
         }
+
+        public MaterialPropertyBlock Mpb
+        {
+            get
+            {
+                if (mpb == null)
+                {
+                    mpb = new MaterialPropertyBlock();
+                }
+                return mpb;
+            }
+        }
         
         public void SetColor(Constants.BubbleColors color)
         {
             _color = color;
             _spriteRenderer.color = Constants.ColorCodes[color];
-            _material.SetColor("_Color", Constants.ColorCodes[color]);
-            _material.SetColor("_DisLineColor", Constants.ColorCodes[color]);
+            Mpb.SetColor(propColorRenderer, Constants.ColorCodes[color]);
+            Mpb.SetColor(propDisColorRenderer, Constants.ColorCodes[color]);
+            _spriteRenderer.SetPropertyBlock(Mpb);
         }
 
         public GridCell GetGridPosition()
@@ -82,6 +98,7 @@ namespace Game.Entity
             _rb.bodyType = RigidbodyType2D.Dynamic;
         }
 
+
         public IEnumerator BubbleExplodeEffect()
         {
 
@@ -93,7 +110,8 @@ namespace Game.Entity
                 float normalizedTime = t / duration;
                 // lerp from 0 to 1 using the normalized time
                 float lerpedValue = Mathf.Lerp(0f, 1f, normalizedTime);
-                _material.SetFloat  ("_DisAmount", lerpedValue);
+                Mpb.SetFloat  ("_DisAmount", lerpedValue);
+                _spriteRenderer.SetPropertyBlock(Mpb);
                 yield return null; // wait for next frame
             }
             // execute code after lerping is done
