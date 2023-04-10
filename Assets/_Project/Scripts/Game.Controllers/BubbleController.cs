@@ -1,6 +1,5 @@
-using System;
+using TMPro;
 using System.Collections.Generic;
-using DG.Tweening;
 using Game.Entity;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -11,6 +10,7 @@ namespace Game.Controllers
     {
         [SerializeField] private Bubble ballPrefabs;
         [SerializeField] private Transform _pivotTransform;
+        [SerializeField] private TextMeshProUGUI scoreText;
         private Vector3 _originalPosition;
         private GridController _gridController;
         private GridLayout _gridLayout;
@@ -134,13 +134,13 @@ namespace Game.Controllers
             if (isExploded)
             {
                 sameColorBalls.Add(bullet.GetGridPosition());
-                //ScoreSystem.ScoreCalculator(sameColorBalls.Count, Constants.BallPoints[bullet.GetBallColor()]);
-
+                ScoreController.IncreaseScore(sameColorBalls.Count);
+                ScoreController.SetScoreText(scoreText);
+                
                 foreach (GridCell cell in sameColorBalls)
                 {
                     StartCoroutine( cell.bubble.BubbleExplodeEffect());
                     cell.bubble = null;
-                    
                     _shootCount = 0;
                 }
             }
@@ -161,6 +161,8 @@ namespace Game.Controllers
             _pivotTransform.localPosition = _originalPosition;
             ClearBalls();
             InitGrid();
+            ScoreController.ResetScore();
+            ScoreController.SetScoreText(scoreText);
         }
 
         public void ResetShootCount()

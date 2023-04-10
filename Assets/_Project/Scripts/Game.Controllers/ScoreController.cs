@@ -1,5 +1,5 @@
+using System;
 using TMPro;
-using UnityEngine;
 
 namespace Game.Controllers
 {
@@ -10,6 +10,11 @@ namespace Game.Controllers
         public static void IncreaseScore(int amount)
         {
             _score += amount;
+        }
+
+        public static void ResetScore()
+        {
+            _score = 0;
         }
 
         public static void SetScoreText(TextMeshProUGUI text)

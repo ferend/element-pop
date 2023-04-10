@@ -45,7 +45,6 @@ namespace Game.Managers
         {
             OnGameOver?.Invoke();
             _uiManager.SwitchPanel(UIManager.PanelType.lose);
-            Debug.Log("gameover");
             _inputManager.BaseInput.GetComponent<PlayerInput>()._canShoot = false;
         }
         
