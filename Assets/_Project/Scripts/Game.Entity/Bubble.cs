@@ -101,7 +101,7 @@ namespace Game.Entity
 
         public IEnumerator BubbleExplodeEffect()
         {
-
+            _collider.enabled = false;
             float duration = 0.7f; // duration of the lerp
             float t = 0f; // current time
             while (t < duration)
@@ -133,17 +133,13 @@ namespace Game.Entity
                 {
                     FixPosition();
                     gameObject.tag = "Ball";
-                    //gameObject.layer = LayerMask.NameToLayer("Ball");
                     OnBubbleCollision?.Invoke(this, coll.gameObject.GetComponent<Bubble>().GetGridPosition());
                     OnBubbleMatch?.Invoke(this);
-                    //BallManager.Instance.OnShootComplete();
                 }
     
                 if (coll.gameObject.layer == LayerMask.NameToLayer("Plane"))
                 {
                     Destroy(gameObject);
-                    //BallManager.Instance.OnShootComplete();
-
                 }
             }
             

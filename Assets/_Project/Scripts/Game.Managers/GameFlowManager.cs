@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Game.Controllers;
 using Game.Entity;
 using Game.Helpers;
@@ -13,16 +14,13 @@ namespace Game.Managers
         public event Action OnGameRestart;
 
         private InputManager _inputManager;
-        private PlayerController _playerController;
         private BubbleController _bubbleController;
         private UIManager _uiManager;
-        private bool _canPlay;
         
         protected override void SetupManagers()
         {
             base.SetupManagers();
             _inputManager = GetManager<InputManager>();
-            _playerController = GetManager<PlayerController>();
             _bubbleController = GetManager<BubbleController>();
             _uiManager = GetManager<UIManager>();
         }
@@ -31,7 +29,6 @@ namespace Game.Managers
         {
             base.Setup();
             Deadline.OnBubbleCollision += GameOver;
-
             _uiManager.Setup();
         }
         public void GameStart()
@@ -39,7 +36,7 @@ namespace Game.Managers
             _uiManager.SwitchPanel(UIManager.PanelType.gameHUD);
             _bubbleController.ResetGrid();
             _bubbleController.ResetShootCount();
-            _inputManager.BaseInput.GetComponent<PlayerInput>()._canShoot = true;
+            StartCoroutine(SetCanShoot());
         }
         public void GameOver()
         {
@@ -47,9 +44,11 @@ namespace Game.Managers
             _uiManager.SwitchPanel(UIManager.PanelType.lose);
             _inputManager.BaseInput.GetComponent<PlayerInput>()._canShoot = false;
         }
-        
-        public void SetPaused(bool isPaused)
+
+        private IEnumerator SetCanShoot()
         {
+            yield return new WaitForSeconds(1.5f);
+            _inputManager.BaseInput.GetComponent<PlayerInput>()._canShoot = true;
         }
     }
 }
